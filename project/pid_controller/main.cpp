@@ -223,7 +223,7 @@ int main ()
  double Kd_steer = 1.0;
  double output_lim_max_steer = 1.0;
  double output_lim_min_steer = -1.0;
-  PID pid_steer(Kp_steer, Ki_steer, Kd_steer, output_lim_max_steer, output_lim_min_steer);
+  PID pid_steer = PID(Kp_steer, Ki_steer, Kd_steer, output_lim_max_steer, output_lim_min_steer);
 
 
   // initialize pid throttle
@@ -235,7 +235,7 @@ int main ()
   double Kd_throttle = 1.0;
   double output_lim_max_throttle = 1.2;
   double output_lim_min_throttle = -1.2;
-  PID pid_throttle(Kp_throttle, Ki_throttle, Kd_throttle, output_lim_max_throttle, output_lim_min_throttle);
+  PID pid_throttle = PID(Kp_throttle, Ki_throttle, Kd_throttle, output_lim_max_throttle, output_lim_min_throttle);
 
   //PID pid_steer = PID();
   //PID pid_throttle = PID();
