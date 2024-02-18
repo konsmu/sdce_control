@@ -17,9 +17,24 @@ In this project, you will apply the skills you have acquired in this course to d
 
 3. Build the project
     ```bash
-    cd pid_controller
+    # Build the project
+    # Run the following commands from the pid_controller/ directory
     cmake .
+    # The command below compiles your c++ code. Run it after each time you edit the CPP or Header files
     make
+    ```
+
+4. Run a CARLA instance in one terminal
+    ```bash
+    cd sdce_control/project
+    ./run_carla.sh
+    ```
+
+5. Run the project in another terminal
+    ```bash
+    # Run the project
+    cd sdce_control/project
+    ./run_main_pid.sh
     ```
 
 
