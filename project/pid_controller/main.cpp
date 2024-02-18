@@ -218,14 +218,24 @@ int main ()
   /**
   * TODO (Step 1): create pid (pid_steer) for steer command and initialize values
   **/
-  PID pid_steer(Kpi=1, Kii=1, Kdi=1, output_lim_maxi=-1.0, output_lim_mini=1.0);
+ double Kp_steer = 1.0;
+ double Ki_steer = 1.0;
+ double Kd_steer = 1.0;
+ double output_lim_max_steer = 1.0;
+ double output_lim_min_steer = -1.0;
+  PID pid_steer(Kp_steer, Ki_steer, Kd_steer, output_lim_max_steer, output_lim_min_steer);
 
 
   // initialize pid throttle
   /**
   * TODO (Step 1): create pid (pid_throttle) for throttle command and initialize values
   **/
-  PID pid_throttle(Kpi=1, Kii=1, Kdi=1, output_lim_maxi=-1.2, output_lim_mini=1.2);
+  double Kp_throttle = 1.0;
+  double Ki_throttle = 1.0;
+  double Kd_throttle = 1.0;
+  double output_lim_max_throttle = 1.2;
+  double output_lim_min_throttle = -1.2;
+  PID pid_throttle(Kp_throttle, Ki_throttle, Kd_throttle, output_lim_max_throttle, output_lim_min_throttle);
 
   //PID pid_steer = PID();
   //PID pid_throttle = PID();
