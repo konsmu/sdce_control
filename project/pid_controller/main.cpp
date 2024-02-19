@@ -9,6 +9,22 @@
  * @file main.cpp
  **/
 
+// PID controller coefficients
+
+// Throttle controll
+static const double KP_THROTTLE = 1.0;
+static const double KD_THROTTLE = 0.1;
+static const double KI_THROTTLE = 0.01;
+static const double THROTTLE_MAX = 1.0;
+static const double THROTTLE_MIN = -1.0;
+
+// Steering control
+static const double KP_STEER = 1.0;
+static const double KD_STEER = 0.1;
+static const double KI_STEER = 0.01;
+static const double STEER_MAX = 1.2;
+static const double STEER_MIN = -1.2;
+
 #include <string>
 #include <array>
 #include <cfloat>
@@ -214,30 +230,23 @@ int main ()
   time_t timer;
   time(&prev_timer);
 
-  // initialize pid steer
+  // create PI objects
+    
   PID pid_steer = PID();
   PID pid_throttle = PID();
+
+  // initialize pid steer
   /**
   * TODO (Step 1): create pid (pid_steer) for steer command and initialize values
   **/
- double Kp_steer = 1.0;
- double Ki_steer = 1.0;
- double Kd_steer = 1.0;
- double output_lim_max_steer = 1.0;
- double output_lim_min_steer = -1.0;
- pid_steer.Init(Kp_steer, Ki_steer, Kd_steer, output_lim_max_steer, output_lim_min_steer);
+ pid_steer.Init(KP_STEER, KI_STEER, KD_STEER, STEER_MAX, STEER_MIN);
 
 
   // initialize pid throttle
   /**
   * TODO (Step 1): create pid (pid_throttle) for throttle command and initialize values
   **/
-  double Kp_throttle = 1.0;
-  double Ki_throttle = 1.0;
-  double Kd_throttle = 1.0;
-  double output_lim_max_throttle = 1.2;
-  double output_lim_min_throttle = -1.2;
-  pid_throttle.Init(Kp_throttle, Ki_throttle, Kd_throttle, output_lim_max_throttle, output_lim_min_throttle);
+  pid_throttle.Init(KP_THROTTLE, KI_THROTTLE, KD_THROTTLE, THROTTLE_MAX, THROTTLE_MIN);
 
   h.onMessage([&pid_steer, &pid_throttle, &new_delta_time, &timer, &prev_timer, &i, &prev_timer](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode)
   {
@@ -311,8 +320,8 @@ int main ()
           * TODO (step 3): compute the steer error (error_steer) from the position and the desired trajectory
           **/
           // TODO: Comment!!!
-//          double target_yaw = angle_between_points(double x_position, double y_position, double x_points[x_points.size()-1], double y_points[y_points.size()-1]);
-//          double error_steer = target_yaw - yaw;
+//          double target_yaw = angle_between_points(x_position, y_position, x_points[x_points.size()-1], y_points[y_points.size()-1]);
+//          error_steer = (target_yaw - yaw) % 2.0*M_PI;
 
           /**
           * TODO (step 3): uncomment these lines
@@ -365,6 +374,7 @@ int main ()
           pid_throttle.UpdateError(error_throttle);
           double throttle = pid_throttle.TotalError();
 
+          cout << "# Throttle = " << throttle << endl;
           // Adapt the negative throttle to break
           if (throttle > 0.0) {
             throttle_output = throttle;
