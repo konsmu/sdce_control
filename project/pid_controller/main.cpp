@@ -75,8 +75,6 @@ using json = nlohmann::json;
 
 #define _USE_MATH_DEFINES
 
-int nearest_point_idx = next_point(x_position, y_position, x_points, y_points);
-
 int next_point(double x, double y, vector<double>& trajec_x, vector<double>& trajec_y){
     double dist;
     int nearest_point_idx = 0;
