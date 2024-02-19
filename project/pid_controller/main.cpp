@@ -321,7 +321,7 @@ int main ()
           **/
           // TODO: Comment!!!
           double target_yaw = angle_between_points(x_position, y_position, x_points[x_points.size()-1], y_points[y_points.size()-1]);
-          error_steer = (target_yaw - yaw) % 2.0*M_PI;
+          error_steer = std::fmod((target_yaw - yaw), 2.0*M_PI);
 
           /**
           * TODO (step 3): uncomment these lines
