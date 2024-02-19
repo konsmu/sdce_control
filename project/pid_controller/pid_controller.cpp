@@ -36,7 +36,7 @@ void PID::UpdateError(double ctei) {
    * TODO: Update PID errors based on cte.
    **/
   this->cte = ctei;
-  this->diff_cte = (ctei - this->prev_cte)/this->dt;
+  this->diff_cte = (ctei - this->prev_cte)/std::min(this->dt, 0.00001);
   this->prev_cte = ctei;
   this->int_cte += ctei*this->dt;
 }
@@ -47,6 +47,7 @@ double PID::TotalError() {
     * The code should return a value in the interval [output_lim_mini, output_lim_maxi]
    */
    double control = -Kp*cte - Kd*diff_cte - Ki*int_cte;
+   cout << "# Kp = " << Kp << ", Ki = " << Ki << ", Kd = " << Kd << ", cte = " << cte << ", diff_cte = " << diff_cte << ", int_cte = " << int_cte << endl;
    //return (control > output_lim_max ? output_lim_min : (control < output_lim_min ? output_lim_min : control));
    if (control < this->output_lim_min){
       control = this->output_lim_min;
