@@ -337,8 +337,15 @@ int main ()
           **/
           // TODO: Comment!!!
           int nearest_point_idx = next_point(x_position, y_position, x_points, y_points);
+          cout << "# Nearest Point Idx = " << nearest_point_idx << endl;
           double target_yaw = angle_between_points(x_position, y_position, x_points[nearest_point_idx], y_points[nearest_point_idx]);
-          error_steer = std::fmod((yaw - target_yaw), 2.0*M_PI);
+          error_steer = (yaw - target_yaw);
+          if(error_steer > M_PI){
+            error_steer -= M_2_PI;
+          }
+          if(error_steer < -M_PI){
+            error_steer += M_2_PI;
+          }
 
           /**
           * TODO (step 3): uncomment these lines
