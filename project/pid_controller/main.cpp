@@ -83,11 +83,11 @@ int next_point(double x, double y, vector<double>& trajec_x, vector<double>& tra
     for (int i=1; i < trajec_x.size(); ++i){
       dist = (x - trajec_x[i])*(x - trajec_x[i]) + (y - trajec_y[i] - y)*(y - trajec_y[i]);
       if (dist < nearest_dist){
-        next_point_idx = i;
+        nearest_point_idx = i;
         nearest_dist = dist;
       }
     }
-    return next_point_idx;
+    return nearest_point_idx;
 }
 
 
