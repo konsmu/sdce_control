@@ -320,24 +320,24 @@ int main ()
           * TODO (step 3): compute the steer error (error_steer) from the position and the desired trajectory
           **/
           // TODO: Comment!!!
-//          double target_yaw = angle_between_points(x_position, y_position, x_points[x_points.size()-1], y_points[y_points.size()-1]);
-//          error_steer = (target_yaw - yaw) % 2.0*M_PI;
+          double target_yaw = angle_between_points(x_position, y_position, x_points[x_points.size()-1], y_points[y_points.size()-1]);
+          error_steer = (target_yaw - yaw) % 2.0*M_PI;
 
           /**
           * TODO (step 3): uncomment these lines
           **/
-//           // Compute control to apply
-//           pid_steer.UpdateError(error_steer);
-//           steer_output = pid_steer.TotalError();
+           // Compute control to apply
+           pid_steer.UpdateError(error_steer);
+           steer_output = pid_steer.TotalError();
 
-//           // Save data
-//           file_steer.seekg(std::ios::beg);
-//           for(int j=0; j < i - 1; ++j) {
-//               file_steer.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-//           }
-//           file_steer  << i ;
-//           file_steer  << " " << error_steer;
-//           file_steer  << " " << steer_output << endl;
+           // Save data
+           file_steer.seekg(std::ios::beg);
+           for(int j=0; j < i - 1; ++j) {
+               file_steer.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+           }
+           file_steer  << i ;
+           file_steer  << " " << error_steer;
+           file_steer  << " " << steer_output << endl;
 
           ////////////////////////////////////////
           // Throttle control
