@@ -359,7 +359,7 @@ int main ()
           // computed by the path planner. This is the target speed).
           // 'velocity' contains the actual velocity. 
           // We want to reach the traget velocity, so we calcuate the control error based on these two values.
-          error_throttle = v_points[v_points.size()-1] - velocity;
+          error_throttle = velocity - v_points[v_points.size()-1];
 
 
 
