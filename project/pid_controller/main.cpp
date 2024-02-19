@@ -14,14 +14,14 @@
 // Throttle controll
 static const double KP_THROTTLE = 1.0;
 static const double KD_THROTTLE = 0.1;
-static const double KI_THROTTLE = 0.01;
+static const double KI_THROTTLE = 0.001;
 static const double THROTTLE_MAX = 1.0;
 static const double THROTTLE_MIN = -1.0;
 
 // Steering control
 static const double KP_STEER = 1.0;
 static const double KD_STEER = 0.1;
-static const double KI_STEER = 0.01;
+static const double KI_STEER = 0.001;
 static const double STEER_MAX = 1.2;
 static const double STEER_MIN = -1.2;
 
@@ -74,6 +74,24 @@ using namespace std;
 using json = nlohmann::json;
 
 #define _USE_MATH_DEFINES
+
+int nearest_point_idx = next_point(x_position, y_position, x_points, y_points);
+
+int next_point(double x, double y, vector<double>& trajec_x, vector<double>& trajec_y){
+    double dist;
+    int nearest_point_idx = 0;
+    double nearest_dist = (x - trajec_x[0])*(x - trajec_x[0]) + (y - trajec_y[0] - y)*(y - trajec_y[0]);
+
+    for (int i=1; i < trajec_x.size(); ++i){
+      dist = (x - trajec_x[i])*(x - trajec_x[i]) + (y - trajec_y[i] - y)*(y - trajec_y[i]);
+      if (dist < nearest_dist){
+        next_point_idx = i;
+        nearest_dist = dist;
+      }
+    }
+    return next_point_idx;
+}
+
 
 string hasData(string s) {
   auto found_null = s.find("null");
@@ -320,7 +338,8 @@ int main ()
           * TODO (step 3): compute the steer error (error_steer) from the position and the desired trajectory
           **/
           // TODO: Comment!!!
-          double target_yaw = angle_between_points(x_position, y_position, x_points[x_points.size()-1], y_points[y_points.size()-1]);
+          int nearest_point_idx = next_point(x_position, y_position, x_points, y_points);
+          double target_yaw = angle_between_points(x_position, y_position, x_points[nearest_point_idx], y_points[nearest_point_idx]);
           error_steer = std::fmod((target_yaw - yaw), 2.0*M_PI);
 
           /**
@@ -359,7 +378,7 @@ int main ()
           // computed by the path planner. This is the target speed).
           // 'velocity' contains the actual velocity. 
           // We want to reach the traget velocity, so we calcuate the control error based on these two values.
-          error_throttle = velocity - v_points[v_points.size()-1];
+          error_throttle = velocity - v_points[nearest_point_idx];
 
 
 
