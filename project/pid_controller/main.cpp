@@ -11,7 +11,7 @@
 
 // PID controller coefficients
 
-// Throttle controll
+// Throttle control
 static const double KP_THROTTLE = 0.2;
 static const double KD_THROTTLE = 0.000;
 static const double KI_THROTTLE = 0.001;
@@ -19,7 +19,7 @@ static const double THROTTLE_MAX = 1.0;
 static const double THROTTLE_MIN = -1.0;
 
 // Steering control
-static const double KP_STEER = 0.5;
+static const double KP_STEER = -0.5;
 static const double KD_STEER = 0.000;
 static const double KI_STEER = 0.001;
 static const double STEER_MAX = 1.2;
