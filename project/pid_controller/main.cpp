@@ -340,6 +340,7 @@ int main ()
           cout << "# Nearest Point Idx = " << nearest_point_idx << endl;
           double target_yaw = angle_between_points(x_position, y_position, x_points[nearest_point_idx], y_points[nearest_point_idx]);
           error_steer = (yaw - target_yaw);
+          cout << "=====> ### ======> yaw = " << yaw << ", target_yaw = " << target_yaw << endl;
           if(error_steer > M_PI){
             error_steer -= M_2_PI;
           }
