@@ -17,6 +17,7 @@ In this project, you will apply the skills you have acquired in this course to d
 
 3. Build the project
     ```bash
+    cd sdce_control/project/pid_controller
     # Build the project
     # Run the following commands from the pid_controller/ directory
     cmake .

@@ -19,9 +19,9 @@ static const double THROTTLE_MAX = 1.0;
 static const double THROTTLE_MIN = -1.0;
 
 // Steering control
-static const double KP_STEER = 0.6;
-static const double KD_STEER = 0.03;
-static const double KI_STEER = 0.01;
+static const double KP_STEER = -0.5;
+static const double KD_STEER = -0.01;
+static const double KI_STEER = -0.01;
 static const double STEER_MAX = 1.2;
 static const double STEER_MIN = -1.2;
 
@@ -75,6 +75,11 @@ using json = nlohmann::json;
 
 #define _USE_MATH_DEFINES
 
+
+// This function calculates the index of the point in the trajectory given by trajec_x and trajec_y, 
+// which is closest to the position (x,y).
+// To do this, it traverses each point in the trajectory and calculates the Euclidean distance.
+// Then the point (and its index) with the smallest distance is found.
 int next_point(double x, double y, vector<double>& trajec_x, vector<double>& trajec_y){
     double dist;
     int nearest_point_idx = 0;
@@ -255,7 +260,7 @@ int main ()
   /**
   * TODO (Step 1): create pid (pid_steer) for steer command and initialize values
   **/
- pid_steer.Init(KP_STEER, KI_STEER, KD_STEER, STEER_MAX, STEER_MIN);
+  pid_steer.Init(KP_STEER, KI_STEER, KD_STEER, STEER_MAX, STEER_MIN);
 
 
   // initialize pid throttle
@@ -335,7 +340,13 @@ int main ()
           /**
           * TODO (step 3): compute the steer error (error_steer) from the position and the desired trajectory
           **/
-          // TODO: Comment!!!
+          // We calculate the difference in the yaw angle to determine the steering command. 
+          // To do this, we need to calculate the target yaw angle, which can be calculated using the current 
+          // position (x,y) and the target position using trigonometry. 
+          // We use the same function as for throttle control to determine the closest point in the target trajectory 
+          // and use the provided function 'angle_between_points' to determine the target angle. 
+          // We then calculate the error by subtracting the actual yaw angle.
+
           int nearest_point_idx = next_point(x_position, y_position, x_points, y_points);
           cout << "# Nearest Point Idx = " << nearest_point_idx << endl;
           double target_yaw = angle_between_points(x_position, y_position, x_points[nearest_point_idx], y_points[nearest_point_idx]);
@@ -382,14 +393,13 @@ int main ()
           * TODO (step 2): compute the throttle error (error_throttle) from the position and the desired speed
           **/
           // modify the following line for step 2
-          // The target velocity is 'v_points[v_points.size()-1]' (the last point of the vector v_points contains the velocity
-          // computed by the path planner. This is the target speed).
-          // 'velocity' contains the actual velocity. 
-          // We want to reach the traget velocity, so we calcuate the control error based on these two values.
+
+
+          // The error results from the difference between the desired speed at the next target point and the actual speed.
+          // To do this, we first determine the nearest target point in the target trajectory (index 'nearest_point_idx'). 
+          // We then read  the target speed of this point ('v_points[nearest_point_idx]') and calculate the difference to the actual speed. 
+          // This error is fed into the throttle PID controller.
           error_throttle = v_points[nearest_point_idx] - velocity;
-
-
-
 
           double throttle_output;
           double brake_output;
