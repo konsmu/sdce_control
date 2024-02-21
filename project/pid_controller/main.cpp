@@ -339,7 +339,9 @@ int main ()
           int nearest_point_idx = next_point(x_position, y_position, x_points, y_points);
           cout << "# Nearest Point Idx = " << nearest_point_idx << endl;
           double target_yaw = angle_between_points(x_position, y_position, x_points[nearest_point_idx], y_points[nearest_point_idx]);
-          error_steer = (yaw - target_yaw);
+          cout << "=====> ### nearest_point_idx = " << nearest_point_idx << ", x = " << x_position << ", y = " << y_position << ", target_x = " << x_points[nearest_point_idx] << ", target_y = " << y_points[nearest_point_idx] << endl;
+
+          error_steer = target_yaw - yaw;
           cout << "=====> ### ======> yaw = " << yaw << ", target_yaw = " << target_yaw << endl;
           if(error_steer > M_PI){
             error_steer -= M_2_PI;
@@ -384,7 +386,7 @@ int main ()
           // computed by the path planner. This is the target speed).
           // 'velocity' contains the actual velocity. 
           // We want to reach the traget velocity, so we calcuate the control error based on these two values.
-          error_throttle = velocity - v_points[nearest_point_idx];
+          error_throttle = v_points[nearest_point_idx] - velocity;
 
 
 
