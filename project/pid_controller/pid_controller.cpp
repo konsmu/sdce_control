@@ -36,7 +36,7 @@ void PID::UpdateError(double ctei) {
    * TODO: Update PID errors based on cte.
    **/
   this->cte = ctei;
-  this->diff_cte = (ctei - this->prev_cte)/std::max(this->dt, 0.00001);
+  this->diff_cte = (ctei - this->prev_cte)/std::max(this->dt, 0.01);
   this->prev_cte = ctei;
   this->int_cte += ctei*this->dt;
 }
